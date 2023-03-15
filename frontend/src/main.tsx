@@ -7,9 +7,11 @@ import "./theme/index.css";
 import router from "./components/Router";
 
 import theme from "./theme/Theme";
+import GlobalStyle from "./GlobalStyle";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ThemeProvider theme={theme}>
+    <GlobalStyle />
     <RouterProvider router={router} />
   </ThemeProvider>
 );

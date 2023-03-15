@@ -4,8 +4,6 @@ import { WagmiConfig, createClient } from "wagmi";
 import { getDefaultProvider } from "ethers";
 import { styled } from "@mui/material";
 
-import pressstart2p from "../public/PressStart2P-Regular.ttf";
-
 const client = createClient({
   autoConnect: true,
   provider: getDefaultProvider(),
@@ -15,7 +13,6 @@ function App() {
   return (
     <WagmiConfig client={client}>
       <Wrap>
-        <div>app</div>
         <NavBar></NavBar>
         <Outlet />
       </Wrap>
@@ -24,6 +21,9 @@ function App() {
 }
 const Wrap = styled("div")(({ theme }) => ({
   fontSize: "60px",
+  width: "100%",
+  height: "100%",
+  background: "black",
 }));
 
 export default App;
