@@ -75,11 +75,7 @@ const StyledLinks = styled("div")({
   height: "72px",
   width: "100%",
   "@media (max-width: 768px)": {
-    flexDirection: "column",
-
-    backgroundColor: "white",
-    transition: "all 0.3s ease-in-out",
-    zIndex: 999,
+    display: "none",
   },
 });
 
@@ -87,6 +83,9 @@ const StyledMenuIcon = styled("div")({
   display: "none",
   "@media (max-width: 768px)": {
     display: "flex",
+    position: "fixed",
+    top: "0",
+    right: "0",
 
     transform: "translate(-100%, 65%)",
     fontSize: "1.8rem",
