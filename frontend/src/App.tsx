@@ -3,6 +3,7 @@ import NavBar from "./components/NavBar";
 import { WagmiConfig, createClient } from "wagmi";
 import { getDefaultProvider } from "ethers";
 import { styled } from "@mui/material";
+import Footer from "./components/Footer";
 
 const client = createClient({
   autoConnect: true,
@@ -15,15 +16,21 @@ function App() {
       <Wrap>
         <NavBar></NavBar>
         <Outlet />
+        <Footer></Footer>
       </Wrap>
     </WagmiConfig>
   );
 }
 const Wrap = styled("div")(({ theme }) => ({
-  fontSize: "60px",
+  //fontSize: "60px",
   width: "100%",
   height: "100%",
-  background: "black",
+  marginTop: "72px",
+
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  background: theme.palette.primary.main,
 }));
 
 export default App;

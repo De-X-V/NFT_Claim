@@ -4,6 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import Logo from "../../public/logo.jpg";
+import theme from "../theme/Theme";
+import { makeShortAddress } from "../utils/transform";
 
 function NavBar() {
   const location = useLocation();
@@ -27,7 +29,7 @@ function NavBar() {
         <img src={Logo} alt="logo" width="72px" height="72px" />
       </StyledLogo>
       <StyledMenuIcon onClick={toggleMenu}>☰</StyledMenuIcon>
-      <StyledLinks state={isOpen}>
+      <StyledLinks isOpen={isOpen} theme={theme}>
         <StyledLink to="/" state={location.pathname === "/"}>
           home
         </StyledLink>
@@ -37,9 +39,12 @@ function NavBar() {
         <StyledLink to="/profile" state={location.pathname === "/profile"}>
           profile
         </StyledLink>
+        <StyledLink to="/faq" state={location.pathname === "/faq"}>
+          FAQ
+        </StyledLink>
         {isConnected ? (
           <div>
-            Connected to {address}
+            {makeShortAddress(address)}
             <button onClick={() => disconnect()}>Disconnect</button>
           </div>
         ) : (
@@ -50,51 +55,63 @@ function NavBar() {
   );
 }
 
-const Wrap = styled("div")({
+const Wrap = styled("div")(({ theme }) => ({
+  position: "fixed",
+  top: 0,
+  left: 0,
+
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
   height: "72px",
   width: "100%",
   background: "black",
-});
+}));
 
-const StyledLogo = styled("div")({
+const StyledLogo = styled("div")(({ theme }) => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   fontSize: "10px",
   fontWeight: "bold",
-  color: "white",
+  color: theme.palette.text.primary,
   marginLeft: "20px",
-});
-
-const StyledLinks = styled("div")((props) => ({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  height: "72px",
-  width: "100%",
-  "@media (max-width: 768px)": {
-    display: `${props.state ? "flex" : "none"}`,
-    flexDirection: "column",
-    position: "fixed",
-    top: 0,
-
-    width: "100px",
-    height: "100px",
-    backgroundColor: "white",
-    transition: "all 0.3s ease-in-out",
-    zIndex: 999,
-  },
 }));
+
+const StyledLinks = styled("div")(
+  ({ theme, isOpen }: { theme: any; isOpen: Boolean }) => ({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "72px",
+    width: "100%",
+
+    "@media (max-width: 768px)": {
+      display: `${isOpen ? "flex" : "none"}`,
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      position: "fixed",
+
+      top: "72px",
+
+      bottom: 0,
+
+      height: "200px",
+      backgroundColor: theme.palette.primary.main,
+
+      transition: "all 0.3s ease-in-out",
+      zIndex: 998,
+    },
+  })
+);
 
 const StyledMenuIcon = styled("div")({
   display: "none",
   "@media (max-width: 768px)": {
     display: "flex",
-    position: "fixed",
-    top: "0",
+    position: "absolute",
+    top: "-20px",
     right: "0",
 
     transform: "translate(-100%, 65%)",
@@ -106,17 +123,18 @@ const StyledMenuIcon = styled("div")({
 });
 
 const StyledLink = styled(Link)(({ theme, state }) => ({
-  color: theme.palette.primary.main,
+  color: theme.palette.text.primary,
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
   width: "150px",
   height: "50px",
   marginRight: "40px",
+  marginLeft: "40px",
   alignItems: "center",
   background: `${
     state
-      ? "linear-gradient(101.05deg, #E24040 -5.36%, #EC3C3C 29.46%, #F25E5E 56.03%, #EE3742 81.92%);"
+      ? "linear-gradient(101.05deg, #36a9e8 -5.36%, #36dde9 29.46%, #39b6d8 56.03%, #34ceed 81.92%);"
       : "none"
   }`,
   borderRadius: "16px",
@@ -126,7 +144,7 @@ const StyledLink = styled(Link)(({ theme, state }) => ({
   lineHeight: "24px",
 
   "&:hover": {
-    color: theme.palette.primary.main,
+    color: theme.palette.text.secondary,
   },
 }));
 
