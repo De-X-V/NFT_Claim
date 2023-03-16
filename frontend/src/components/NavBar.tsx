@@ -18,6 +18,7 @@ function NavBar() {
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+    console.log(isOpen);
   };
 
   return (
@@ -26,7 +27,7 @@ function NavBar() {
         <img src={Logo} alt="logo" width="72px" height="72px" />
       </StyledLogo>
       <StyledMenuIcon onClick={toggleMenu}>☰</StyledMenuIcon>
-      <StyledLinks>
+      <StyledLinks state={isOpen}>
         <StyledLink to="/" state={location.pathname === "/"}>
           home
         </StyledLink>
@@ -68,16 +69,25 @@ const StyledLogo = styled("div")({
   marginLeft: "20px",
 });
 
-const StyledLinks = styled("div")({
+const StyledLinks = styled("div")((props) => ({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   height: "72px",
   width: "100%",
   "@media (max-width: 768px)": {
-    display: "none",
+    display: `${props.state ? "flex" : "none"}`,
+    flexDirection: "column",
+    position: "fixed",
+    top: 0,
+
+    width: "100px",
+    height: "100px",
+    backgroundColor: "white",
+    transition: "all 0.3s ease-in-out",
+    zIndex: 999,
   },
-});
+}));
 
 const StyledMenuIcon = styled("div")({
   display: "none",
