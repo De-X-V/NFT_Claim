@@ -21,8 +21,8 @@ const dummy = [
 function DashBoard() {
   return (
     <Wrap>
-      {dummy.map((nft) => (
-        <NftBox img={nft.img} title={nft.title} content={nft.content} />
+      {dummy.map((nft, i) => (
+        <NftBox key={i} img={nft.img} title={nft.title} content={nft.content} />
       ))}
     </Wrap>
   );

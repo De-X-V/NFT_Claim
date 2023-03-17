@@ -1,28 +1,58 @@
 import { styled } from "@mui/material";
+import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
-import { useAccount, useConnect, useDisconnect, useProvider } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useBalance } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import NftBox from "../DashBoard/NftBox";
 import { makeEtherFromBigNumber, makeShortAddress } from "../utils/transform";
 
 function Profile() {
   const { address, isConnected } = useAccount();
-  const [walletBalance, setWalletBalance] = useState(1);
+  const [walletBalance, setWalletBalance] = useState(0);
+  const [tokens, setTokens] = useState<any[]>([]);
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
   const { disconnect } = useDisconnect();
-  const provider = useProvider();
+
   const getMyBalance = async (_account: any) => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
     const balance = await provider.getBalance(_account);
     console.log(balance);
     return makeEtherFromBigNumber(balance);
   };
+
+  const getERC721Tokens = async (_account: any) => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const abi = [
+        "function balanceOf(address owner) view returns (uint256)",
+        "function tokenOfOwnerByIndex(address owner, uint256 index) view returns (uint256)",
+      ];
+      const contractAddress = "0x7c40c393dc0f283f318791d746d894ddd3693572";
+      const contract = new ethers.Contract(contractAddress, abi, signer);
+      const balance = await contract.balanceOf(_account);
+      const tokens = [];
+      for (let i = 0; i < balance.toNumber(); i++) {
+        const token = await contract.tokenOfOwnerByIndex(_account, i);
+        tokens.push(token.toNumber());
+      }
+      return tokens;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     if (address) {
       getMyBalance(address).then((result) => {
         console.log(result);
         setWalletBalance(result);
+      });
+      getERC721Tokens(address).then((result) => {
+        console.log(result);
+        setTokens(result);
       });
     }
   }, []);
@@ -36,6 +66,7 @@ function Profile() {
           <StyledContent>보유중인 NFT</StyledContent>
           <StyledContent>보유중인 ETH</StyledContent>
           <StyledContent>{walletBalance}</StyledContent>
+          <StyledContent>보유중인 토큰들{tokens} </StyledContent>
         </StyledUserInfo>
       </StyledBox>
       <StyledBox>
