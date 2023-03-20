@@ -9,16 +9,20 @@ import { makeEtherFromBigNumber, makeShortAddress } from "../utils/transform";
 function Profile() {
   const { address, isConnected } = useAccount();
   const [walletBalance, setWalletBalance] = useState(0);
-  const [tokens, setTokens] = useState<any[]>([]);
+  const [tokens, setTokens] = useState<any[] | undefined>([]);
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
   const { disconnect } = useDisconnect();
 
-  const getMyBalance = async (_account: any) => {
+  const getMyBalance = async (_account: string) => {
+    if (!window.ethereum) {
+      throw new Error("No ethereum provider found");
+    }
+
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const balance = await provider.getBalance(_account);
-    console.log(balance);
+
     return makeEtherFromBigNumber(balance);
   };
 
@@ -32,12 +36,20 @@ function Profile() {
       ];
       const contractAddress = "0x7c40c393dc0f283f318791d746d894ddd3693572";
       const contract = new ethers.Contract(contractAddress, abi, signer);
-      const balance = await contract.balanceOf(_account);
+      console.log(contract);
+      //const balance = await contract.balanceOf();
+
       const tokens = [];
+      /*
       for (let i = 0; i < balance.toNumber(); i++) {
         const token = await contract.tokenOfOwnerByIndex(_account, i);
         tokens.push(token.toNumber());
+      }*/
+      for (let i = 0; i < 3; i++) {
+        const token = await contract.tokenOfOwnerByIndex(_account, i);
+        tokens.push(token.toNumber());
       }
+      console.log(tokens);
       return tokens;
     } catch (e) {
       console.log(e);
@@ -55,7 +67,7 @@ function Profile() {
         setTokens(result);
       });
     }
-  }, []);
+  }, [address]);
   return (
     <Wrap>
       <StyledBox>
