@@ -5,6 +5,7 @@ import { useAccount, useConnect, useDisconnect, useBalance } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import NftBox from "../DashBoard/NftBox";
 import { makeEtherFromBigNumber, makeShortAddress } from "../utils/transform";
+import { getNftsForOwner, getNftsfromAxios } from "../utils/getNfts";
 
 function Profile() {
   const { address, isConnected } = useAccount();
@@ -25,7 +26,7 @@ function Profile() {
 
     return makeEtherFromBigNumber(balance);
   };
-
+  /*
   const getERC721Tokens = async (_account: any) => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -40,11 +41,11 @@ function Profile() {
       //const balance = await contract.balanceOf();
 
       const tokens = [];
-      /*
+      
       for (let i = 0; i < balance.toNumber(); i++) {
         const token = await contract.tokenOfOwnerByIndex(_account, i);
         tokens.push(token.toNumber());
-      }*/
+      }
       for (let i = 0; i < 3; i++) {
         const token = await contract.tokenOfOwnerByIndex(_account, i);
         tokens.push(token.toNumber());
@@ -55,6 +56,7 @@ function Profile() {
       console.log(e);
     }
   };
+  */
 
   useEffect(() => {
     if (address) {
@@ -62,10 +64,31 @@ function Profile() {
         console.log(result);
         setWalletBalance(result);
       });
+      /*
+      try {
+        getNftsfromAxios(address).then((result) => {
+          console.log(result);
+        });
+      } catch (e) {
+        console.log(e);
+      }
+      */
+
+      try {
+        getNftsForOwner(address).then((result) => {
+          console.log(result);
+          //setTokens(result);
+        });
+      } catch (e) {
+        console.log("error", e);
+      }
+
+      /*
       getERC721Tokens(address).then((result) => {
         console.log(result);
         setTokens(result);
       });
+      */
     }
   }, [address]);
   return (
