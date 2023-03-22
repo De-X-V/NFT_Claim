@@ -1,6 +1,7 @@
 export const getNftsForOwner = async (ownerAddress: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
+    const Apikey = import.meta.env.VITE_APP_API_KEY;
     xhr.withCredentials = true;
 
     xhr.onreadystatechange = function () {
@@ -16,7 +17,7 @@ export const getNftsForOwner = async (ownerAddress: string): Promise<any> => {
 
     xhr.open(
       "GET",
-      `https://eth-goerli.g.alchemy.com/nft/v2/YjnOONe-mU_lZeLJuB3_YANo7HfKzgqr/getNFTs?owner=${ownerAddress}&withMetadata=true`,
+      `https://eth-goerli.g.alchemy.com/nft/v2/${Apikey}/getNFTs?owner=${ownerAddress}&withMetadata=true`,
       true
     );
 

@@ -8,9 +8,14 @@ import { makeEtherFromBigNumber, makeShortAddress } from "../utils/transform";
 import { getNftsForOwner } from "../utils/getNfts";
 
 function Profile() {
+  interface Nft {
+    address: string;
+    title: string;
+    imgsrc: string;
+  }
   const { address, isConnected } = useAccount();
   const [walletBalance, setWalletBalance] = useState(0);
-  const [tokens, setTokens] = useState<any | undefined>();
+  const [tokens, setTokens] = useState<Nft[] | undefined>([]);
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
@@ -26,37 +31,6 @@ function Profile() {
 
     return makeEtherFromBigNumber(balance);
   };
-  /*
-  const getERC721Tokens = async (_account: any) => {
-    try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const abi = [
-        "function balanceOf(address owner) view returns (uint256)",
-        "function tokenOfOwnerByIndex(address owner, uint256 index) view returns (uint256)",
-      ];
-      const contractAddress = "0x7c40c393dc0f283f318791d746d894ddd3693572";
-      const contract = new ethers.Contract(contractAddress, abi, signer);
-      console.log(contract);
-      //const balance = await contract.balanceOf();
-
-      const tokens = [];
-      
-      for (let i = 0; i < balance.toNumber(); i++) {
-        const token = await contract.tokenOfOwnerByIndex(_account, i);
-        tokens.push(token.toNumber());
-      }
-      for (let i = 0; i < 3; i++) {
-        const token = await contract.tokenOfOwnerByIndex(_account, i);
-        tokens.push(token.toNumber());
-      }
-      console.log(tokens);
-      return tokens;
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  */
 
   useEffect(() => {
     if (address) {
@@ -64,36 +38,28 @@ function Profile() {
         console.log(result);
         setWalletBalance(result);
       });
-      /*
-      try {
-        getNftsfromAxios(address).then((result) => {
-          console.log(result);
-        });
-      } catch (e) {
-        console.log(e);
-      }
-      */
 
       async function fetchData() {
         try {
           const result = await getNftsForOwner(address);
           const Nfts = result.ownedNfts;
-          const ApiKey = process.env.REACT_APP_API_KEY;
           console.log(Nfts);
-          console.log(ApiKey);
+          Nfts.map((nft: any) => {
+            const address = nft.contract.address;
+            const title = nft.title;
+            const imgSrc = nft.metadata.image;
+            setTokens((tokens) => [
+              ...tokens,
+              { address: address, title: title, imgsrc: imgSrc },
+            ]);
+          });
+          //setTokens(Nfts);
         } catch (error) {
           console.error(error);
         }
       }
 
       fetchData();
-
-      /*
-      getERC721Tokens(address).then((result) => {
-        console.log(result);
-        setTokens(result);
-      });
-      */
     }
   }, [address]);
   return (
@@ -106,16 +72,13 @@ function Profile() {
           <StyledContent>보유중인 NFT</StyledContent>
           <StyledContent>보유중인 ETH</StyledContent>
           <StyledContent>{walletBalance}</StyledContent>
-          <StyledContent>보유중인 토큰들{tokens} </StyledContent>
         </StyledUserInfo>
       </StyledBox>
-      <StyledBox>
-        <NftBox
-          img="https://i.imgur.com/6YQ9Z9r.png"
-          title="pepe1"
-          content="0"
-        />
-      </StyledBox>
+      <StyledNftBox>
+        {tokens.map((token) => (
+          <NftBox img={token.imgsrc} title={token.title} content="0" />
+        ))}
+      </StyledNftBox>
     </Wrap>
   );
 }
@@ -153,6 +116,13 @@ const StyledBox = styled("div")(({ theme }) => ({
   flexDirection: "row",
   fontSize: "30px",
 }));
+
+const StyledNftBox = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  fontSize: "30px",
+}));
+
 const StyledTitle = styled("div")(({ theme }) => ({
   fontSize: "30px",
   background: theme.palette.secondary.main,
