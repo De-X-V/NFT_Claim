@@ -5,7 +5,7 @@ import { useAccount, useConnect, useDisconnect, useBalance } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import NftBox from "../DashBoard/NftBox";
 import { makeEtherFromBigNumber, makeShortAddress } from "../utils/transform";
-import { getNftsForOwner, getNftsfromAxios } from "../utils/getNfts";
+import { getNftsForOwner } from "../utils/getNfts";
 
 function Profile() {
   const { address, isConnected } = useAccount();
@@ -78,7 +78,9 @@ function Profile() {
         try {
           const result = await getNftsForOwner(address);
           const Nfts = result.ownedNfts;
+          const ApiKey = process.env.REACT_APP_API_KEY;
           console.log(Nfts);
+          console.log(ApiKey);
         } catch (error) {
           console.error(error);
         }
