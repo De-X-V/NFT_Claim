@@ -9,10 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@alch/alchemy-web3": "^1.4.7",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.12",
+    "alchemy-sdk": "^2.6.1",
+    "dotenv": "^16.0.3",
     "ethers": "^5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
