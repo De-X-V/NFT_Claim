@@ -10,7 +10,7 @@ import { getNftsForOwner, getNftsfromAxios } from "../utils/getNfts";
 function Profile() {
   const { address, isConnected } = useAccount();
   const [walletBalance, setWalletBalance] = useState(0);
-  const [tokens, setTokens] = useState<any[] | undefined>([]);
+  const [tokens, setTokens] = useState<any | undefined>();
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
@@ -74,14 +74,17 @@ function Profile() {
       }
       */
 
-      try {
-        getNftsForOwner(address).then((result) => {
-          console.log(result);
-          //setTokens(result);
-        });
-      } catch (e) {
-        console.log("error", e);
+      async function fetchData() {
+        try {
+          const result = await getNftsForOwner(address);
+          const Nfts = result.ownedNfts;
+          console.log(Nfts);
+        } catch (error) {
+          console.error(error);
+        }
       }
+
+      fetchData();
 
       /*
       getERC721Tokens(address).then((result) => {
