@@ -21,6 +21,8 @@ function Profile() {
   });
   const { disconnect } = useDisconnect();
 
+  
+
   const getMyBalance = async (_account: string) => {
     if (!window.ethereum) {
       throw new Error("No ethereum provider found");
