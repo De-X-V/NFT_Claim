@@ -8,6 +8,7 @@ const web3 = new Web3(
 const alchemyWeb3 = createAlchemyWeb3("<api-key>"); // Alchemy API endpoint를 입력해야 합니다.
 
 function NFTList() {
+  /*
   const [nfts, setNFTs] = useState([]);
 
   useEffect(() => {
@@ -30,4 +31,5 @@ function NFTList() {
       ))}
     </div>
   );
+  */
 }

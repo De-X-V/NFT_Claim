@@ -6,6 +6,7 @@ import { InjectedConnector } from "wagmi/connectors/injected";
 import NftBox from "../DashBoard/NftBox";
 import { makeEtherFromBigNumber, makeShortAddress } from "../utils/transform";
 import { getNftsForOwner } from "../utils/getNfts";
+import { JsonRpcProvider } from "@ethersproject/providers";
 
 function Profile() {
   interface Nft {
@@ -21,17 +22,13 @@ function Profile() {
   });
   const { disconnect } = useDisconnect();
 
-  
-
   const getMyBalance = async (_account: string) => {
-    if (!window.ethereum) {
-      throw new Error("No ethereum provider found");
+    if (window.ethereum) {
+      const provider = new JsonRpcProvider((window.ethereum as any).provider);
+      const balance = await provider.getBalance(_account);
+
+      return makeEtherFromBigNumber(balance);
     }
-
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const balance = await provider.getBalance(_account);
-
-    return makeEtherFromBigNumber(balance);
   };
 
   useEffect(() => {
