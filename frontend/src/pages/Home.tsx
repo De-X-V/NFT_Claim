@@ -34,12 +34,16 @@ function Home() {
         <StyledImg src={nftimg} />
 
         <StyledDescript>
-          <StyledDescriptTitle>어쩌구 저쩌구 서비스 소개</StyledDescriptTitle>
+          <StyledDescriptTitle>
+            Request to add new NFT information
+          </StyledDescriptTitle>
           <StyledDescriptContent>
-            어쩌구 저쩌구 서비스 소개 어쩌구 저쩌구 서비스 소개 어쩌구 저쩌구
-            서비스 소개 어쩌구 저쩌구 서비스 소개 어쩌구 저쩌구 서비스 소개
-            어쩌구 저쩌구 서비스 소개 어쩌구 저쩌구 서비스 소개 어쩌구 저쩌구
-            서비스 소개
+            When a new NFT is released, users can request that information,
+            which can add new NFT information to the service. The NFT
+            information provided by the users is reviewed by the operator and
+            reflected on the service page, allowing all users who provide the
+            NFT information to contribute to the development of the service and
+            provide more accurate information.
           </StyledDescriptContent>
           <StyledRequestButton onClick={() => handleRequestClick()}>
             <StyledRequestButtonText>Claim Request </StyledRequestButtonText>
@@ -111,6 +115,8 @@ const StyledClaimRequest = styled("div")(({ theme }) => ({
   fontSize: "60px",
   display: "flex",
   flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
   width: "100%",
   height: "100%",
   padding: "20px",
