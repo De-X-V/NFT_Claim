@@ -43,12 +43,14 @@ function NavBar() {
           FAQ
         </StyledLink>
         {isConnected ? (
-          <div>
+          <StyledConnectedBox>
             {makeShortAddress(address)}
             <button onClick={() => disconnect()}>Disconnect</button>
-          </div>
+          </StyledConnectedBox>
         ) : (
-          <button onClick={() => connect()}>Connect</button>
+          <StyledConnectedBox>
+            <button onClick={() => connect()}>Connect</button>
+          </StyledConnectedBox>
         )}
       </StyledLinks>
     </Wrap>
@@ -92,16 +94,14 @@ const StyledLinks = styled("div")(
       alignItems: "center",
       justifyContent: "center",
       position: "fixed",
-
       top: "72px",
-
       bottom: 0,
-
       height: "200px",
+      padding: "20px",
       backgroundColor: theme.palette.primary.main,
-
       transition: "all 0.3s ease-in-out",
       zIndex: 998,
+      borderBottom: `1px solid ${theme.palette.text.primary} `,
     },
   })
 );
@@ -145,6 +145,21 @@ const StyledLink = styled(Link)(({ theme, state }) => ({
 
   "&:hover": {
     color: theme.palette.text.secondary,
+  },
+
+  "@media (max-width: 768px)": {
+    marginTop: "10px",
+  },
+}));
+
+const StyledConnectedBox = styled("div")(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+
+  "@media (max-width: 768px)": {
+    marginTop: "10px",
   },
 }));
 

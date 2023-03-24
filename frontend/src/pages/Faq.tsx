@@ -4,7 +4,7 @@ import React from "react";
 function Faq() {
   return (
     <Wrap>
-      FAQ page
+      FAQ
       <StyledTitle>Q. What is NFT?</StyledTitle>
       <StyledAnswer>sdfasfadsfasfsd</StyledAnswer>
       <StyledTitle>Q. What is NFT?</StyledTitle>
@@ -44,6 +44,7 @@ const StyledTitle = styled("div")(({ theme }) => ({
 }));
 
 const StyledAnswer = styled("div")(({ theme }) => ({
+  fontFamily: "Noto Sans KR",
   fontSize: "20px",
   margin: "20px",
   background: theme.palette.primary.main,
