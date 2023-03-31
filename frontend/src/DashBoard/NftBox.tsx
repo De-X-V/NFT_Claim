@@ -60,7 +60,7 @@ const StyledTitle = styled("div")(({ theme }) => ({
 
 const StyledContent = styled("div")(({ theme }) => ({
   fontSize: "15px",
-
+  fontFamily: "Noto Sans KR",
   background: theme.palette.secondary.main,
 }));
 
