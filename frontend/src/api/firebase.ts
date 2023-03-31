@@ -3,13 +3,13 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA_C3BaIYgyv4UMODkyR3E8feQFDsyp6SI",
-  authDomain: "toco-15eaf.firebaseapp.com",
-  projectId: "toco-15eaf",
-  storageBucket: "toco-15eaf.appspot.com",
-  messagingSenderId: "1037324260716",
-  appId: "1:1037324260716:web:9fb3d1e2228d86e4b70f49",
-  measurementId: "G-PKLBH3KXBZ",
+  apiKey: "AIzaSyA4QFh7-MUjH8yDUKzUXIrfr5IeUnayDFo",
+  authDomain: "devx-d25d5.firebaseapp.com",
+  projectId: "devx-d25d5",
+  storageBucket: "devx-d25d5.appspot.com",
+  messagingSenderId: "269069834044",
+  appId: "1:269069834044:web:787b7e8d162cbf02073039",
+  measurementId: "G-L1DF5CYCCK",
 };
 
 // firebaseConfig 정보로 firebase 시작

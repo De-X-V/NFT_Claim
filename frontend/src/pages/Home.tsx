@@ -66,6 +66,7 @@ const Wrap = styled("div")(({ theme }) => ({
   padding: "75px",
   background: theme.palette.primary.main,
   color: theme.palette.text.primary,
+  minWidth: "700px",
 }));
 const StyledTitle = styled("div")(({ theme }) => ({
   fontSize: "60px",
@@ -91,6 +92,9 @@ const StyledClaimList = styled("div")(({ theme }) => ({
 const StyledDescript = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+
   width: "100%",
   height: "100%",
   padding: "20px",
