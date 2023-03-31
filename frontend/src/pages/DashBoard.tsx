@@ -1,9 +1,10 @@
 import { styled } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NftBox from "../DashBoard/NftBox";
 import dummy1 from "../../public/dummy1.jpeg";
 import dummy2 from "../../public/dummy2.jpeg";
+import { getNFTs } from "../api/nft";
 
 const dummy = [
   {
@@ -19,10 +20,28 @@ const dummy = [
 ];
 
 function DashBoard() {
+  const [nfts, setNFTs] = useState([]);
+
+  useEffect(() => {
+    const getNftFromFireBase = async () => {
+      const nftList = await getNFTs();
+      setNFTs(nftList);
+    };
+    getNftFromFireBase();
+  }, []);
+
   return (
     <Wrap>
       {dummy.map((nft, i) => (
         <NftBox key={i} img={nft.img} title={nft.title} content={nft.content} />
+      ))}
+      {nfts.map((nft, i) => (
+        <NftBox
+          key={i}
+          img={nft.images}
+          title={nft.title}
+          content={nft.description}
+        />
       ))}
     </Wrap>
   );

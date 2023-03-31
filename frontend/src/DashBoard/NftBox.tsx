@@ -24,11 +24,13 @@ function NftBox({
 const Wrap = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
 
   fontSize: "30px",
   margin: "20px",
-  width: "800px",
-  height: "400px",
+  width: "1000px",
+  height: "600px",
   background: theme.palette.secondary.main,
   color: theme.palette.text.primary,
 }));
