@@ -46,7 +46,14 @@ function Profile() {
           Nfts.map((nft: any) => {
             const address = nft.contract.address;
             const title = nft.title;
-            const imgSrc = nft.metadata.image;
+            const ipfsGatewayPrefix = "https://ipfs.io/ipfs/";
+            if (nft.metadata.image === undefined) return;
+
+            const imgSrc = nft.metadata.image.replace(
+              "ipfs://",
+              ipfsGatewayPrefix
+            );
+
             setTokens((tokens) => [
               ...tokens,
               { address: address, title: title, imgsrc: imgSrc },
